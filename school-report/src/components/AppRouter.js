@@ -1,11 +1,15 @@
-import React from 'react'
-import {Route} from 'react-router-dom'
-import RegistrationForm from './RegistrationForm'
+import React from 'react';
+import { Route } from 'react-router-dom';
+import RegistrationForm from './RegistrationForm';
+import FormikLoginForm from './LoginForm';
 
 const AppRouter = () => {
   return (
-  <Route path="/register" component={RegistrationForm} />
-  )
-}
+    <div>
+      <Route path='/register' component={RegistrationForm} />
+      <Route path='/login' component={FormikLoginForm} />
+    </div>
+  );
+};
 
-export default AppRouter
+export default AppRouter;
