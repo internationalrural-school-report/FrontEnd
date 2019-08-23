@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Navigation from './components/Navigation';
 import AppRouter from './components/AppRouter';
-import AddIssueForm from './components/AddIssueForm'
+import AddIssueForm from './components/AddIssueForm';
 
 function App() {
   return (
