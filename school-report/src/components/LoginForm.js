@@ -6,14 +6,9 @@ function LoginForm({ errors, touched }) {
   return (
     <Form>
       <div>
-        {touched.firstname && errors.firstname && <p>{errors.firstname}</p>}
-        <label htmlFor='firstname'>First Name</label>
-        <Field type='text' name='firstname' />
-      </div>
-      <div>
-        {touched.lastname && errors.lastname && <p>{errors.lastname}</p>}
-        <label htmlFor='lastname'>Last Name</label>
-        <Field type='text' name='lastname' />
+        {touched.username && errors.username && <p>{errors.username}</p>}
+        <label htmlFor='username'>Username</label>
+        <Field type='text' name='username' />
       </div>
       <div>
         {touched.password && errors.password && <p>{errors.password}</p>}
@@ -26,17 +21,15 @@ function LoginForm({ errors, touched }) {
 }
 
 const FormikLoginForm = withFormik({
-  mapPropsToValues({ firstname, lastname, password }) {
+  mapPropsToValues({ username, password }) {
     return {
-      firstname: firstname || '',
-      lastname: lastname || '',
+      username: username || '',
       password: password || ''
     };
   },
 
   validationSchema: Yup.object().shape({
-    firstname: Yup.string().required('First name is required'),
-    lastname: Yup.string().required('Last name is required'),
+    username: Yup.string().required('Username is required'),
     password: Yup.string()
       .min(8, 'Password must be at least 8 characters long')
       .required('Password is required')
