@@ -8,6 +8,7 @@ const phoneValidation = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-
 function form({values, errors, touched}) {
     return (
         <Form>
+            <div>Please enter your information below</div>
             <div>
                 {touched.firstName && errors.firstName && <p>{errors.firstName}</p>}
                 <Field type='email' name='email' placeholder='Email'/>
