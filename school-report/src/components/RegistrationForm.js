@@ -16,6 +16,7 @@ function FormRegister({values, errors, touched}) {
   useEffect (() => {
     Axios.get('https://irsr-be-dev.herokuapp.com/public/roles')
     .then( res => {
+      console.log(res);
       setAdminDrop(res.data[0].id);
       setBoardDrop(res.data[1].id);
     })
@@ -25,14 +26,16 @@ function FormRegister({values, errors, touched}) {
   useEffect(() => {
     Axios.get('https://irsr-be-dev.herokuapp.com/public/orgs')
     .then( res => {
+      console.log(res)
       setOrgDrop(res.data)
     })
     .catch(err => console.log(err))
   }, [])
 
   const orgDropdown = orgDrop.map((org) => {
+    console.log(org.id)
     return (
-      <option key={org.name} value={org}>{org.name}</option>
+      <option key={org.name} value={org.id}>{org.name}</option>
     )
   })
 
@@ -47,49 +50,53 @@ function FormRegister({values, errors, touched}) {
           {touched.password && errors.password && <p>{errors.password}</p>}
           <Field type='password' name='password' placeholder='Password'/>
       </div>
+      <div>
+          {touched.name && errors.name && <p>{errors.name}</p>}
+          <Field type='text' name='name' placeholder='Name'/>
+      </div>
       <div>What is your role?</div>
-      <select name='roleID'> 
-      <option value={adminDrop}>School Administrator</option>
-      <option value={boardDrop}>Board Member</option>
-      </select>
+      <Field component='select' name='roleID'> 
+        <option value={adminDrop}>School Administrator</option>
+        <option value={boardDrop}>Board Member</option>
+      </Field>
       <div>Which organization are you associated with?</div>
-      <select name='orgID'>{orgDropdown}</select>
+      <Field component='select' name='orgID'>{orgDropdown}</Field>
       
-      <button>Submit!</button>
+      <button type='submit'>Submit!</button>
     </Form>
   )
 }
 
 const RegistrationForm = withFormik({
-  mapPropsToValues({email, username, password}) {
+  mapPropsToValues({username, name, password, orgID, roleID}) {
+
     return {
       username: username || "",
-      email: email || "",
+      name: name || "",
       password: password || "",
-  }
+      orgID: orgID || "",
+      roleID: roleID || ""
+  };
 },
 
-validationSchema: Yup.object().shape({
-  username: Yup.string()
-  .required("First name is required"),
-  email: Yup.string()
-  .email('Email is not valid')
-  .required('Email is required'),
-  password: Yup.string()
-  .min(8, 'Password must be at least 8 characters long')
-  .required('Password is required'),
-  phone: Yup.string()
-  .matches(phoneValidation, 'That is not a valid number')
-  .required('Phone number is required')
-}),
+  validationSchema: Yup.object().shape({
+    username: Yup.string()
+    .required("First name is required"),
+    name: Yup.string()
+    .required("First name is required"),
+    password: Yup.string()
+    .min(8, 'Password must be at least 8 characters long')
+    .required('Password is required'),
+  }),
 
-handleSubmit(values) {
-  console.log(values)
-  Axios.post('https://irsr-be-dev.herokuapp.com/auth/register', values)
-    .then(res => console.log(res))
-
-    .catch(err => console.log(err))
-}
+  handleSubmit(values) {
+    console.log(values);
+    Axios.post('https://irsr-be-dev.herokuapp.com/auth/register', JSON.stringify(values))
+      .then(res => {
+        console.log(res);
+      })
+      .catch(res => console.log(res))
+  }
 
 })(FormRegister)
 
