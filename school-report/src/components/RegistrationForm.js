@@ -16,7 +16,6 @@ function FormRegister({values, errors, touched}) {
   useEffect (() => {
     Axios.get('https://irsr-be-dev.herokuapp.com/public/roles')
     .then( res => {
-      console.log(res);
       setAdminDrop(res.data[0].id);
       setBoardDrop(res.data[1].id);
     })
@@ -26,14 +25,12 @@ function FormRegister({values, errors, touched}) {
   useEffect(() => {
     Axios.get('https://irsr-be-dev.herokuapp.com/public/orgs')
     .then( res => {
-      console.log(res)
       setOrgDrop(res.data)
     })
     .catch(err => console.log(err))
   }, [])
 
   const orgDropdown = orgDrop.map((org) => {
-    console.log(org.id)
     return (
       <option key={org.name} value={org.id}>{org.name}</option>
     )
@@ -93,11 +90,11 @@ const RegistrationForm = withFormik({
     .required('Password is required'),
   }),
 
-  handleSubmit(values) {
-    console.log(JSON.stringify(values))
+  handleSubmit(values, {resetForm}) {
     Axios.post('https://irsr-be-dev.herokuapp.com/auth/register', (values))
       .then(res => {
         console.log(res);
+        resetForm();
       })
       .catch(res => console.log(res))
   }
