@@ -55,12 +55,16 @@ function FormRegister({values, errors, touched}) {
           <Field type='text' name='name' placeholder='Name'/>
       </div>
       <div>What is your role?</div>
-      <Field component='select' name='roleID'> 
+      <Field component='select' name='role_id'> 
+        <option>Select role</option>
         <option value={adminDrop}>School Administrator</option>
         <option value={boardDrop}>Board Member</option>
       </Field>
       <div>Which organization are you associated with?</div>
-      <Field component='select' name='orgID'>{orgDropdown}</Field>
+      <Field component='select' name='org_id'>
+      <option>Select organization!</option>
+      {orgDropdown}
+      </Field>
       
       <button type='submit'>Submit!</button>
     </Form>
@@ -68,14 +72,14 @@ function FormRegister({values, errors, touched}) {
 }
 
 const RegistrationForm = withFormik({
-  mapPropsToValues({username, name, password, orgID, roleID}) {
+  mapPropsToValues({username, name, password, org_id, role_id}) {
 
     return {
       username: username || "",
       name: name || "",
       password: password || "",
-      orgID: orgID || "",
-      roleID: roleID || ""
+      org_id: org_id || "",
+      role_id: role_id || ""
   };
 },
 
@@ -90,8 +94,8 @@ const RegistrationForm = withFormik({
   }),
 
   handleSubmit(values) {
-    console.log(values);
-    Axios.post('https://irsr-be-dev.herokuapp.com/auth/register', JSON.stringify(values))
+    console.log(JSON.stringify(values))
+    Axios.post('https://irsr-be-dev.herokuapp.com/auth/register', (values))
       .then(res => {
         console.log(res);
       })
