@@ -35,7 +35,6 @@ function IssuesGrid() {
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    console.log(sortBy)
   }
 
   const handleChange = (ev) => {
@@ -51,7 +50,6 @@ function IssuesGrid() {
             <option>Sort by Issue Status</option>
             {statusDrop}
           </select>
-          <button type='submit'>Sort</button>
         </form>
         {issues.map(issue => {
           if (issue.status_id == sortBy) {
