@@ -5,17 +5,21 @@ import { axiosWithAuth } from './axiosWithAuth';
 function IssuesGrid() {
   const [issues, setIssues] = useState([]);
 
+  useEffect(() => {
+    axiosWithAuth()
+    .get('https://irsr-be-dev.herokuapp.com/issues')
+    .then(res => {
+      // console.log(res.data);
+      setIssues(res.data);
+      console.log(res)
+  })
+  .catch(res => {
+    console.log('Error', res);
+  });
+  }, [])
+
   //
   if (localStorage.getItem('token')) {
-    axiosWithAuth()
-      .get('https://irsr-be-dev.herokuapp.com/issues')
-      .then(res => {
-        // console.log(res.data);
-        setIssues(res.data);
-      })
-      .catch(res => {
-        console.log('Error', res);
-      });
 
     return (
       <div>
