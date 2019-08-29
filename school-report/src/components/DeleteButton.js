@@ -6,7 +6,10 @@ const DeleteButton = (props) => {
     axiosWithAuth()
     .delete(`https://irsr-be-dev.herokuapp.com/issues/${props.props.obj.id}`)
         .then( (res) => console.log(res))
-        .catch( (err) => console.log(err))
+        .catch( (err) => {
+            alert('You do not have the proper permissions for this task.');
+            console.log(err)
+        })
 }
 
 export default DeleteButton
