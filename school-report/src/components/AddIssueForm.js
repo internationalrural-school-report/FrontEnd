@@ -1,9 +1,41 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {Form, Field, withFormik} from 'formik';
 import * as Yup from 'yup'
+import axios from 'axios'
+import { axiosWithAuth } from './axiosWithAuth';
 
 
-function form({values, errors, touched}) {
+function IssueForm({values, errors, touched}) {
+
+  const [statusList, setStatusList] = useState([]);
+  const [orgDrop, setOrgDrop] = useState([]);
+
+  useEffect(() => {
+    axios.get('https://irsr-be-dev.herokuapp.com/public/issue-status')
+      .then( res => setStatusList(res.data))
+      .catch( err => console.log(err))
+  }, [])
+
+  useEffect(() => {
+    axios.get('https://irsr-be-dev.herokuapp.com/public/orgs')
+    .then( res => {
+      setOrgDrop(res.data)
+    })
+    .catch(err => console.log(err))
+  }, [])
+
+  const statusDrop = statusList.map( (status) => {
+    return (
+      <option key={status.name} value={status.id}>{status.name}</option>
+    )
+  })
+
+  const orgDropdown = orgDrop.map((org) => {
+    return (
+      <option key={org.name} value={org.id}>{org.name}</option>
+    )
+  })
+
   return (
     <Form>
       <div>Please enter information about the issue</div>
@@ -12,12 +44,22 @@ function form({values, errors, touched}) {
         <Field type='text' name='name' placeholder='Issue name'/>
       </div>
       <div>
-        THIS IS GOING TO BE A POPULATED DROPDOWN FOR ISSUE ID  {/*use map for options from axios call*/}
+        <Field component='select' name='status_id'>
+          <option>Select Status</option>
+          {statusDrop}
+        </Field>
+      </div>
+      <div>
+        <Field component='select' name='org_id'>
+          <option>Select organization</option>
+          {orgDropdown}
+      </Field>
       </div>
       <div>
         {touched.comments && errors.comments && <p>{errors.comments}</p>}
         <Field component='textarea' type='text' name='comments' placeholder='Describe the issue'/>
       </div>
+      <button type='submit'>Submit</button>
     </Form>
   )
 }
@@ -36,9 +78,24 @@ validationSchema: Yup.object().shape({
   name: Yup.string()
   .required("Issue name is required"),
   comments: Yup.string()
-  .required('Issue description is required')
-})
+  .required('Issue description is required'),
+  org_id: Yup.number()
+  .required('The organization is required'),
+  status_id: Yup.number()
+  .required('The status is required')
+}),
 
-})(form)
+handleSubmit(values, {resetForm}) {
+  axiosWithAuth()
+  .post('https://irsr-be-dev.herokuapp.com/issues', (values))
+    .then(res => {
+      console.log(res);
+      resetForm();
+      alert('Your issue has been submitted.')
+    })
+    .catch(res => console.log(res))
+}
+
+})(IssueForm)
 
 export default AddIssueForm
