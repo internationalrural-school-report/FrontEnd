@@ -1,18 +1,44 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {Form, Field, withFormik} from 'formik'
 import * as Yup from 'yup'
+import Axios from 'axios'
 
+{/* header: {Authorization: token}, set local storage ('token', 'username', 'userid') */}
 
 const phoneValidation = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
-function form({values, errors, touched}) {
+function FormRegister({values, errors, touched}) {
+
+  const [adminDrop, setAdminDrop] = useState();
+  const [boardDrop, setBoardDrop] = useState();
+  const [orgDrop, setOrgDrop] = useState([]);
+
+  useEffect (() => {
+    Axios.get('https://irsr-be-dev.herokuapp.com/public/roles')
+    .then( res => {
+      setAdminDrop(res.data[0].id);
+      setBoardDrop(res.data[1].id);
+    })
+    .catch( err => console.log(err))
+  }, [])
+
+  useEffect(() => {
+    Axios.get('https://irsr-be-dev.herokuapp.com/public/orgs')
+    .then( res => {
+      setOrgDrop(res.data)
+    })
+    .catch(err => console.log(err))
+  }, [])
+
+  const orgDropdown = orgDrop.map((org) => {
+    return (
+      <option key={org.name} value={org.id}>{org.name}</option>
+    )
+  })
+
   return (
     <Form>
       <div>Please enter your information below</div>
-      <div>
-          {touched.email && errors.email && <p>{errors.email}</p>}
-          <Field type='email' name='email' placeholder='Email'/>
-      </div>
       <div>
           {touched.username && errors.username && <p>{errors.username}</p>}
           <Field type='text' name='username' placeholder='Username'/>
@@ -22,44 +48,57 @@ function form({values, errors, touched}) {
           <Field type='password' name='password' placeholder='Password'/>
       </div>
       <div>
-          {touched.phone && errors.phone && <p>{errors.phone}</p>}
-          <Field type='tel' name='phone' placeholder='Phone Number'/>
+          {touched.name && errors.name && <p>{errors.name}</p>}
+          <Field type='text' name='name' placeholder='Name'/>
       </div>
-      <div>
-          {touched.password && errors.password && <p>{errors.password}</p>}
-          <Field type='password' name='password' placeholder='Organization Name'/>
-      </div>
-      <div>Are you a Board Member or School Administrator?</div>
-      <select name='regDropdown' />
-      {/*use map for options from axios call*/}
+      <div>What is your role?</div>
+      <Field component='select' name='role_id'> 
+        <option>Select role</option>
+        <option value={adminDrop}>School Administrator</option>
+        <option value={boardDrop}>Board Member</option>
+      </Field>
+      <div>Which organization are you associated with?</div>
+      <Field component='select' name='org_id'>
+      <option>Select organization!</option>
+      {orgDropdown}
+      </Field>
+      
+      <button type='submit'>Submit!</button>
     </Form>
   )
 }
 
 const RegistrationForm = withFormik({
-  mapPropsToValues({email, username, password , phone}) {
+  mapPropsToValues({username, name, password, org_id, role_id}) {
+
     return {
       username: username || "",
-      email: email || "",
+      name: name || "",
       password: password || "",
-      phone: phone || "",
-  }
+      org_id: org_id || "",
+      role_id: role_id || ""
+  };
 },
 
-validationSchema: Yup.object().shape({
-  username: Yup.string()
-  .required("First name is required"),
-  email: Yup.string()
-  .email('Email is not valid')
-  .required('Email is required'),
-  password: Yup.string()
-  .min(8, 'Password must be at least 8 characters long')
-  .required('Password is required'),
-  phone: Yup.string()
-  .matches(phoneValidation, 'That is not a valid number')
-  .required('Phone number is required')
-})
+  validationSchema: Yup.object().shape({
+    username: Yup.string()
+    .required("First name is required"),
+    name: Yup.string()
+    .required("First name is required"),
+    password: Yup.string()
+    .min(8, 'Password must be at least 8 characters long')
+    .required('Password is required'),
+  }),
 
-})(form)
+  handleSubmit(values, {resetForm}) {
+    Axios.post('https://irsr-be-dev.herokuapp.com/auth/register', (values))
+      .then(res => {
+        console.log(res);
+        resetForm();
+      })
+      .catch(res => console.log(res))
+  }
+
+})(FormRegister)
 
 export default RegistrationForm
