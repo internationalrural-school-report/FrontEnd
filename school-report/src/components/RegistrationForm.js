@@ -59,7 +59,7 @@ function FormRegister({values, errors, touched}) {
       </Field>
       <div>Which organization are you associated with?</div>
       <Field component='select' name='org_id'>
-      <option>Select organization!</option>
+      <option>Select organization</option>
       {orgDropdown}
       </Field>
       
