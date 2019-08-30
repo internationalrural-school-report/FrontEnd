@@ -6,7 +6,7 @@ import axios from 'axios'
 function IssuesGrid() {
   const [issues, setIssues] = useState([]);
   const [statusList, setStatusList] = useState([]);
-  const [sortBy, setSortBy] = useState();
+  const [sortBy, setSortBy] = useState('all');
 
   useEffect(() => {
     axiosWithAuth()
@@ -44,11 +44,12 @@ function IssuesGrid() {
         <form>
           <select name='status' onChange={(ev) => handleChange(ev)}>
             <option>Sort by Issue Status</option>
+            <option value='all'>Show all issues</option>
             {statusDrop}
           </select>
         </form>
         {issues.map(issue => {
-          if (issue.status_id == sortBy || sortBy === undefined) {
+          if (issue.status_id == sortBy || sortBy === 'all') {
           return <Issue obj={issue} key={issue.id} />;
           }
         })}
