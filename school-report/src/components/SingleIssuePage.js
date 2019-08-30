@@ -22,7 +22,12 @@ const SingleIssuePage = props => {
         <div>{props.props.obj.status_name}</div>
         <button onClick={() => DeleteButton(props)}>Delete Issue</button>
       </Modal>
-      <div onClick={() => setShowModal(true)}>More Information</div>
+      <button
+        style={{ cursor: 'pointer', borderRadius: '5px' }}
+        onClick={() => setShowModal(true)}
+      >
+        More Information
+      </button>
     </div>
   );
 };
