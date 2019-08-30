@@ -1,4 +1,0 @@
-[build]
-base = "school-report/"
-publish = "school-report/"
-command = "yarn build"
