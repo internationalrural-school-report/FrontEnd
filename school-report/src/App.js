@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import './components/RegistrationForm.css'
 import Navigation from './components/Navigation';
 import AppRouter from './components/AppRouter';
 
