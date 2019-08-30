@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {Form, Field, withFormik} from 'formik'
 import * as Yup from 'yup'
 import Axios from 'axios'
+import './RegistrationForm.css'
 
 {/* header: {Authorization: token}, set local storage ('token', 'username', 'userid') */}
 
@@ -37,7 +38,7 @@ function FormRegister({values, errors, touched}) {
   })
 
   return (
-    <Form>
+    <Form className='pure-form pure-form-aligned register-form'>
       <div>Please enter your information below</div>
       <div>
           {touched.username && errors.username && <p>{errors.username}</p>}
@@ -62,8 +63,9 @@ function FormRegister({values, errors, touched}) {
       <option>Select organization</option>
       {orgDropdown}
       </Field>
-      
-      <button type='submit'>Submit!</button>
+      <div>
+      <button className='pure-button' type='submit'>Submit!</button>
+      </div>
     </Form>
   )
 }

@@ -37,7 +37,7 @@ function IssueForm({values, errors, touched}) {
   })
 
   return (
-    <Form>
+    <Form className='pure-form pure-form-aligned add-issue-form'>
       <div>Please enter information about the issue</div>
       <div>
         {touched.name && errors.name && <p>{errors.name}</p>}

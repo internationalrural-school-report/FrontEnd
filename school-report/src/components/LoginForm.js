@@ -5,18 +5,16 @@ import Axios from 'axios';
 
 function LoginForm({ errors, touched }) {
   return (
-    <Form>
+    <Form className='pure-form pure-form-aligned login-form'>
       <div>
         {touched.username && errors.username && <p>{errors.username}</p>}
-        <label htmlFor='username'>Username</label>
-        <Field type='text' name='username' />
+        <Field type='text' name='username' placeholder='Username' />
       </div>
       <div>
         {touched.password && errors.password && <p>{errors.password}</p>}
-        <label htmlFor='password'>Password</label>
-        <Field type='password' name='password' />
+        <Field type='password' name='password' placeholder='Password'/>
       </div>
-      <button type='submit'>Login Now</button>
+      <button className='pure-button' type='submit'>Login Now</button>
     </Form>
   );
 }

@@ -31,3 +31,40 @@
     transform: rotate(360deg);
   }
 }
+
+form.pure-form.register-form {
+  line-height: 3rem;
+  font-size: 1.2rem;
+  background-image: url('heart-icon.svg');
+  background-repeat: no-repeat;
+  margin: 5% 25%;
+  padding: 3% 5%;
+}
+
+form.pure-form.login-form {
+  line-height: 3rem;
+  font-size: 1.2rem;
+  background-image: url('heart-icon.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 10% 25%;
+  padding: 8% 4%;
+}
+
+form.pure-form.add-issue-form {
+  line-height: 3rem;
+  font-size: 1.2rem;
+  background-image: url('heart-icon.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 10% 25%;
+  padding: 8% 4%;
+}
+
+.pure-form-aligned textarea {
+  margin: 2% 0;
+}
+
+.react-modal {
+  position: static !important;
+}
