@@ -59,7 +59,7 @@ function IssuesGrid() {
             {statusDrop}
           </select>
         </form>
-        <StyledDiv>
+        <StyledDiv className='Heart-IMG'>
           {issues.map(issue => {
             if (issue.status_id == sortBy || sortBy === 'all') {
               return <Issue obj={issue} key={issue.id} />;

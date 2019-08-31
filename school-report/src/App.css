@@ -61,6 +61,12 @@ form.pure-form.add-issue-form {
   padding: 8% 4%;
 }
 
+.Heart-IMG {
+  background-image: url('heart-icon.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .pure-form-aligned textarea {
   margin: 2% 0;
 }
