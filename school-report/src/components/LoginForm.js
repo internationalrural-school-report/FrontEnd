@@ -12,9 +12,11 @@ function LoginForm({ errors, touched }) {
       </div>
       <div>
         {touched.password && errors.password && <p>{errors.password}</p>}
-        <Field type='password' name='password' placeholder='Password'/>
+        <Field type='password' name='password' placeholder='Password' />
       </div>
-      <button className='pure-button' type='submit'>Login Now</button>
+      <button className='pure-button' type='submit'>
+        Login Now
+      </button>
     </Form>
   );
 }
@@ -37,9 +39,12 @@ const FormikLoginForm = withFormik({
   handleSubmit(values, { resetForm }) {
     Axios.post('https://irsr-be-dev.herokuapp.com/auth/login', values)
       .then(res => {
-        // console.log(res.data.token);
+        //console.log(res.status);
         localStorage.setItem('token', res.data.token);
         resetForm();
+        if (res.status == 201) {
+          alert('Successfully Logged In');
+        }
       })
       .catch(res => console.log(res));
   }
