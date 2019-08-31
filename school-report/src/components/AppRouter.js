@@ -4,7 +4,7 @@ import RegistrationForm from './RegistrationForm';
 import FormikLoginForm from './LoginForm';
 import Axios from 'axios';
 import IssuesGrid from './IssuesGrid';
-import AddIssueForm from './AddIssueForm'
+import AddIssueForm from './AddIssueForm';
 
 const AppRouter = () => {
   return (
